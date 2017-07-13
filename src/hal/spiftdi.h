@@ -17,84 +17,84 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
+/* Serial Peripheral Interface (SPI) bus Class
+ *	This class allows you to take control of devices on the SPI bus from Linux
+ *	It has been developed and tested on the BeagleBone Black but should work on
+ *	any Linux system with spidev support (e.g. Raspberry Pi)
+ *
+ *	Usage is simple...
+ *	To create an instance, point the constructor at your SPI bus
+ *		SPI *myBus = new SPI("/dev/spidev1.0");
+ *
+ *	Set the speed of the bus (or leave it at the 100kHz default)
+ *		myBus->setMaxSpeedHz(1000000);
+ *
+ *	Transfer some data
+ *		uint8_t tx[] = {0x55, 0x00};
+ *		uint8_t rx[] = {0x00, 0x00};
+ *		myBus->transfer(tx, rx, 2);
+ *	Note that tx and rx arrays must be the same size
+ *	(the size is passed as the 3rd parameter to 'transfer')
+ *
+ *	Close the bus
+ *		myBus->close();
+ */
  
-// This is a big hack to transparently support FTDI FT4232 chip SPI. The code need some more love.
+#ifndef spi_h
+#define spi_h
 
-#include "ftdispill.h"
-#include "spiftdi.h"
+#include <stdint.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <getopt.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/types.h>
+//#include "ftdispill.h"
+class SPI {
+public:
+	// Constructor, device path required
+	SPI(const char *device);
+	
+	// Set or get the SPI mode
+	void setMode(uint8_t mode);
+	uint8_t getMode();
+	
+	// Set or get the bits per word
+	void setBitsPerWord(uint8_t bits);
+	uint8_t getBitsPerWord();
+	
+	// Set or get the SPI clock speed
+	void setMaxSpeedHz(uint32_t speed);
+	uint32_t getMaxSpeedHz();
+	
+	// Set or get the SPI delay
+	void setDelayUsecs(uint16_t delay);
+	uint16_t getDelayUsecs();
 
-// Constructor
-//	Opens the SPI device and sets up some default values
-SPI::SPI(const char *device) {
+	int pollInt(void);
+	
+	// Transfer some data
+	//	tx:	Array of bytes to be transmitted
+	//	rx: Array of bytes to be received
+	//	length:	Length of arrays (must be equal)
+	// If you just want to send data you still need to pass in
+	// an rx array, but you can safely ignore its output
+	// Returns true if transfer was successful (false otherwise)
+	bool transfer(uint8_t *tx, uint8_t *rx, int length);
+	
+	// Close the bus
+	void close();
+private:
+	FT_HANDLE ftHandle;             // Handle of the FTDI device
+        FT_STATUS ftStatus;             // Result of each D2XX call
+        int count;
+	uint8_t mode;
+	uint8_t bits;
+	uint32_t speed;
+	uint16_t delay;
+};
 
-	if (spi_init(&ftHandle,0,device))
-	{ // Error occured
-		throw 20;
-	}
-	setDelayUsecs(0);
-}
-
-// Set the mode of the bus (see linux/spi/spidev.h)
-void SPI::setMode(uint8_t mode) {
-	this->mode=mode;
-	perror("Set Mode Unsupported");
-}
-
-// Get the mode of the bus
-uint8_t SPI::getMode() {
-	return this->mode;
-}
-
-// Set the number of bits per word
-void SPI::setBitsPerWord(uint8_t bits) {
-	this->bits=bits;
-	perror("SetBits Unsupported");
-}
-
-// Get the number of bits per word
-uint8_t SPI::getBitsPerWord() {
-	return this->bits;
-}
-
-// Set the bus clock speed
-void SPI::setMaxSpeedHz(uint32_t speed) {
-	this->speed=speed;
-	perror("SetMaxSpeed Unsupported");
-}
-
-// Get the bus clock speed
-uint32_t SPI::getMaxSpeedHz() {
-	return this->speed;
-}
-
-// Set the bus delay
-void SPI::setDelayUsecs(uint16_t delay) {
-	this->delay = delay;
-}
-
-// Get the bus delay
-uint16_t SPI::getDelayUsecs() {
-	return this->delay;
-}
-
-int SPI::pollInt(void) {
-	return spi_getInt(&ftHandle);
-}
-
-// Transfer some data
-bool SPI::transfer(uint8_t *tx, uint8_t *rx, int length) {
-        spi_setCS(&ftHandle,0);
-
-	if (delay) {
-		usleep(delay);
-	}
-
-        spi_trans(&ftHandle,length, (char *)rx, (char *)tx);
-	spi_setCS(&ftHandle,1);
-	return 1;
-}
-
-// Close the bus
-void SPI::close(void) {
-   spi_close(&ftHandle);
-}
+#endif

@@ -10,6 +10,8 @@
 
 #ifdef RASPBERRY_PI
 #include "raspi/raspi.h"
+#elif defined FTDI_SPI
+#warning YES!
 #else
 #include <Arduino.h>
 #include <SPI.h>

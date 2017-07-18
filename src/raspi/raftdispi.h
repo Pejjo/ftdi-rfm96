@@ -31,11 +31,11 @@
 #endif
 
 #ifndef OUTPUT
-  #define OUTPUT BCM2835_GPIO_FSEL_OUTP
+  #define OUTPUT 1
 #endif
 
 #ifndef INPUT
-  #define INPUT BCM2835_GPIO_FSEL_INPT
+  #define INPUT 0
 #endif
 
 #ifndef NOT_A_PIN

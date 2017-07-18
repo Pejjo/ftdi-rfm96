@@ -11,7 +11,7 @@
 #ifdef RASPBERRY_PI
 #include "raspi/raspi.h"
 #elif defined FTDI_SPI
-#include "raspi/raftispi.h"
+#include "raspi/raftdispi.h"
 #else
 #include <Arduino.h>
 #include <SPI.h>

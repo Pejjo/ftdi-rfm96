@@ -11,7 +11,7 @@
 #ifdef RASPBERRY_PI
 #include "raspi/raspi.h"
 #elif defined FTDI_SPI
-#warning YES!
+#include "raspi/raftispi.h"
 #else
 #include <Arduino.h>
 #include <SPI.h>
@@ -30,7 +30,7 @@ static bool check_dio = 0;
 static void hal_io_init () {
 #ifdef FTDI_SPI
 // Nothing
-#elif
+#else
     // NSS is required
     ASSERT(lmic_pins.nss != LMIC_UNUSED_PIN);
 

@@ -51,8 +51,8 @@
 #define noInterrupts() {}
 
 // Delay macros
-#define delay(x) bcm2835_delay(x)
-#define delayMicroseconds(m) bcm2835_delayMicroseconds(m)
+#define delay(x) sleep(x)
+#define delayMicroseconds(m) usleep(m)
 
 // No memcpy_P/PROGMEM on Raspberry PI
 #ifndef memcpy_P

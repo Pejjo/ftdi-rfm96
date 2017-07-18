@@ -9,7 +9,7 @@
 #ifndef RASPI_h
 #define RASPI_h
 
-#include "../ftdispill.h"
+#include "ftdispill.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

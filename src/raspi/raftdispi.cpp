@@ -14,7 +14,7 @@
 static uint64_t epochMilli ;
 static uint64_t epochMicro ;
 
-void SPIClass::begin(const char *device) {
+void SPIClass::begin(const char *serial) {
   initialiseEpoch();
   
 	if (spi_init(&ftHandle,0,device))

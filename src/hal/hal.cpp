@@ -117,12 +117,14 @@ static void hal_io_check() {
 // SPI
 
 static void hal_spi_init () {
-    SPI.begin();
+    SPI.begin("FTOH7Z0A");
 }
 
 #ifdef RASPBERRY_PI
     // Clock divider / 32 = 8MHz
     static const SPISettings settings(BCM2835_SPI_CLOCK_DIVIDER_32 , BCM2835_SPI_BIT_ORDER_MSBFIRST, BCM2835_SPI_MODE0);
+#elif defined FTDI_SPI
+	static const SPISettings settings(10E6, 0, 0);
 #else
     static const SPISettings settings(10E6, MSBFIRST, SPI_MODE0);
 #endif

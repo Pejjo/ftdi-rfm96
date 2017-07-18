@@ -101,7 +101,7 @@ class SPIClass {
   public:
     static byte transfer(byte _data);
     // SPI Configuration methods
-    static void begin(const char *device); // Default
+    static void begin(const char *serial); // Default
     static void end();
     static void beginTransaction(SPISettings settings);
     static void endTransaction();

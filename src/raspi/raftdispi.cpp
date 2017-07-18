@@ -8,7 +8,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <assert.h>
-#include "raspi.h"
+#include "raftdispi.h"
 
 //Initialize the values for sanity
 static uint64_t epochMilli ;

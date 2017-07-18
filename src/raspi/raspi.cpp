@@ -14,82 +14,53 @@
 static uint64_t epochMilli ;
 static uint64_t epochMicro ;
 
-void SPIClass::begin() {
+void SPIClass::begin(const char *device) {
   initialiseEpoch();
   
-  if (!bcm2835_spi_begin()) {
-    printf( "bcm2835_spi_begin() failed. Are you running as root??\n");
-  } else {
-		// LMIC Library code control CS line
-		bcm2835_spi_chipSelect(BCM2835_SPI_CS_NONE);  
+	if (spi_init(&ftHandle,0,device))
+	{ // Error occured
+		throw 20;
 	}
+	setDelayUsecs(0);
 }
 
 void SPIClass::end() {
   //End the SPI
-  bcm2835_spi_end();
+  spi_close(&ftHandle);
 }
 
-void SPIClass::beginTransaction(SPISettings settings) {
+void SPIClass::beginTransaction() {
   //Set SPI clock divider
-  bcm2835_spi_setClockDivider(settings.divider);
-  //Set the SPI bit Order
-  bcm2835_spi_setBitOrder(settings.bitOrder);
-  //Set SPI data mode
-  bcm2835_spi_setDataMode(settings.dataMode);
 
-  uint8_t cs = lmic_pins.nss;
-  // This one was really tricky and spent some time to find
-  // it. When SPI transaction is done bcm2835 can setup CE0/CE1
-  // pins as ALT0 function which may cause chip unselected or
-  // selected depending on chip. And if there are more than 1,
-  // then it can also interfere with other chip communication so 
-  // what we do here is to ensure ou CE0 and CE1 are output HIGH so 
-  // no other interference is happening if other chip are connected
-  bcm2835_gpio_fsel ( 7, BCM2835_GPIO_FSEL_OUTP );
-  bcm2835_gpio_fsel ( 8, BCM2835_GPIO_FSEL_OUTP );
-  bcm2835_gpio_write( 7, HIGH );
-  bcm2835_gpio_write( 8, HIGH );
-
-  // CS line as output
-  if ( cs!=7 && cs!=8) {
-    bcm2835_gpio_fsel( cs, BCM2835_GPIO_FSEL_OUTP );
-    bcm2835_gpio_write( cs, HIGH);
-  }
 }
 
 void SPIClass::endTransaction() {
 }
   
 byte SPIClass::transfer(byte _data) {
-  byte data;
-  data= bcm2835_spi_transfer((uint8_t)_data);
-  return data;
+	byte data;
+    spi_setCS(&ftHandle,0);
+
+	if (delay) {
+		usleep(delay);
+	}
+
+        spi_trans(&ftHandle,1, (char *)&data, (char *)&_data);
+	spi_setCS(&ftHandle,1);
+	return data;
 }
  
 void pinMode(unsigned char pin, unsigned char mode) {
-  if (pin == LMIC_UNUSED_PIN) {
-    return;
-  }
-  if (mode == OUTPUT) {
-    bcm2835_gpio_fsel(pin,BCM2835_GPIO_FSEL_OUTP);
-  } else {
-    bcm2835_gpio_fsel(pin,BCM2835_GPIO_FSEL_INPT);
-  }
 }
 
 void digitalWrite(unsigned char pin, unsigned char value) {
-  if (pin == LMIC_UNUSED_PIN) {
-    return;
-  }
-  bcm2835_gpio_write(pin, value);
 }
 
 unsigned char digitalRead(unsigned char pin) {
   if (pin == LMIC_UNUSED_PIN) {
     return 0;
   }
-  return bcm2835_gpio_lev(pin);
+  return spi_getInt(&ftHandle);
 }
 
 //Initialize a timestamp for millis/micros calculation

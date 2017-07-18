@@ -9,7 +9,7 @@
 #ifndef RASPI_h
 #define RASPI_h
 
-#include <bcm2835.h>
+#include "ftdispill.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -76,15 +76,18 @@ class SPISettings
     SPISettings(uint16_t divider, uint8_t bitOrder, uint8_t dataMode) {
         init(divider, bitOrder, dataMode);
     }
-    SPISettings() {
-        init(BCM2835_SPI_CLOCK_DIVIDER_256, BCM2835_SPI_BIT_ORDER_MSBFIRST, BCM2835_SPI_MODE0);
-    }
+//    SPISettings() {
+//        init(BCM2835_SPI_CLOCK_DIVIDER_256, BCM2835_SPI_BIT_ORDER_MSBFIRST, BCM2835_SPI_MODE0);
+//    }
   private:
     void init(uint16_t divider, uint8_t bitOrder, uint8_t dataMode) {
       this->divider  = divider ; 
       this->bitOrder = bitOrder;
       this->dataMode = dataMode;
-    }
+	}
+	FT_HANDLE ftHandle;             // Handle of the FTDI device
+    FT_STATUS ftStatus;             // Result of each D2XX call
+    int count;
 
     uint16_t divider  ;
     uint8_t  bitOrder ;
@@ -93,10 +96,12 @@ class SPISettings
 };
 
 class SPIClass {
+  private: 
+	
   public:
     static byte transfer(byte _data);
     // SPI Configuration methods
-    static void begin(); // Default
+    static void begin(const char *device); // Default
     static void end();
     static void beginTransaction(SPISettings settings);
     static void endTransaction();

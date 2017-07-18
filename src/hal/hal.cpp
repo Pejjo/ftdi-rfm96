@@ -28,6 +28,9 @@
 static bool check_dio = 0;
 
 static void hal_io_init () {
+#ifdef FTDI_SPI
+// Nothing
+#elif
     // NSS is required
     ASSERT(lmic_pins.nss != LMIC_UNUSED_PIN);
 
@@ -56,6 +59,7 @@ static void hal_io_init () {
 
         }
     }
+#endif
 }
 
 // val == 1  => tx 1

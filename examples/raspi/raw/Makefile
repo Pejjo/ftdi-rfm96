@@ -3,9 +3,10 @@
 # Caution: requires bcm2835 library to be already installed
 # http://www.airspayce.com/mikem/bcm2835/
 
-CC       = g++
-CFLAGS   = -std=c++11 -DRASPBERRY_PI -DBCM2835_NO_DELAY_COMPATIBILITY -D__BASEFILE__=\"$*\"
-LIBS     = -lbcm2835
+CC       = g++-4.7
+CFLAGS   = -std=c++11 -DFTDI_SPI -D__BASEFILE__=\"$*\"
+CXXFLAGS = -Wall -O3 -g
+LIBS     = -lbcm2835 -lftd2xx
 LMICBASE = ../../../src
 INCLUDE  = -I$(LMICBASE) 
 
@@ -32,7 +33,16 @@ aes.o: $(LMICBASE)/aes/lmic.c
 raw.o: raw.cpp
 				$(CC) $(CFLAGS) -c $(INCLUDE) $<
 
-raw: raw.o raspi.o radio.o oslmic.o lmic.o hal.o aes.o
+#spiftdi.o: $(LMICBASE)/hal/spiftdi.cpp
+#				$(CC) $(CXXFLAGS) -c $(LMICBASE)/hal/spiftdi.cpp $(INCLUDE)
+
+ftdispill.o: $(LMICBASE)/raspi/ftdispill.c
+				$(CC) $(CXXFLAGS) -c $(LMICBASE)/raspi/ftdispill.c $(INCLUDE) 
+raftdispi.o: $(LMICBASE)/raspi/raftdispi.cpp
+				$(CC) $(CFLAGS) -c $(LMICBASE)/raspi/raftdispi.cpp $(INCLUDE)
+
+
+raw: raw.o raspi.o radio.o oslmic.o lmic.o hal.o aes.o raftdispi.o ftdispill.o
 				$(CC) $^ $(LIBS) -o raw
 
 clean:

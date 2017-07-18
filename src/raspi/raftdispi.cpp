@@ -4,7 +4,7 @@
 // using BCM2835 library for GPIO
 // This code has been grabbed from excellent RadioHead Library
 
-#ifdef RASPBERRY_PI
+#ifdef FTDI_SPI
 #include <sys/time.h>
 #include <time.h>
 #include <assert.h>

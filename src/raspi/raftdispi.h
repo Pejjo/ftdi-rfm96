@@ -85,19 +85,18 @@ class SPISettings
       this->bitOrder = bitOrder;
       this->dataMode = dataMode;
 	}
+  friend class SPIClass;
+};
+
+class SPIClass {
+  private: 
 	FT_HANDLE ftHandle;             // Handle of the FTDI device
     FT_STATUS ftStatus;             // Result of each D2XX call
     int count;
 
     uint16_t divider  ;
     uint8_t  bitOrder ;
-    uint8_t  dataMode ;
-  friend class SPIClass;
-};
-
-class SPIClass {
-  private: 
-	
+    uint8_t  dataMode ;	
   public:
     static byte transfer(byte _data);
     // SPI Configuration methods

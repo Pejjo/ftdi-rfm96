@@ -27,6 +27,10 @@
 // default we do not use IRQ line and DIO output
 static bool check_dio = 0;
 
+static FT_HANDLE SPI.ftHandle;             // Handle of the FTDI device
+static FT_STATUS SPI.ftStatus;             // Result of each D2XX call
+static uint16_t SPI.delay;
+
 static void hal_io_init () {
 #ifdef FTDI_SPI
 // Nothing

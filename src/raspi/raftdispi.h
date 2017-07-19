@@ -96,10 +96,10 @@ class SPISettings
 
 class SPIClass {
   private: 
-	FT_HANDLE ftHandle;             // Handle of the FTDI device
-    FT_STATUS ftStatus;             // Result of each D2XX call
+	static FT_HANDLE ftHandle;             // Handle of the FTDI device
+    static FT_STATUS ftStatus;             // Result of each D2XX call
 
-	uint16_t delay;
+	static uint16_t delay;
 	
   public:
     static byte transfer(byte _data);

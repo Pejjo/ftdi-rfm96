@@ -85,6 +85,11 @@ class SPISettings
       this->bitOrder = bitOrder;
       this->dataMode = dataMode;
 	}
+    int count;
+
+    uint16_t divider  ;
+    uint8_t  bitOrder ;
+    uint8_t  dataMode ;	
   friend class SPIClass;
 };
 
@@ -92,11 +97,7 @@ class SPIClass {
   private: 
 	static FT_HANDLE ftHandle;             // Handle of the FTDI device
     static FT_STATUS ftStatus;             // Result of each D2XX call
-    int count;
 
-    uint16_t divider  ;
-    uint8_t  bitOrder ;
-    uint8_t  dataMode ;	
 	uint16_t delay;
   public:
     static byte transfer(byte _data);
@@ -109,7 +110,7 @@ class SPIClass {
     static void setDataMode(uint8_t);
     static void setClockDivider(uint16_t);
 	static void setDelayUsecs(uint16_t delay);
-	uint16_t SPIClass::getDelayUsecs();
+	uint16_t getDelayUsecs();
 	
 };
 

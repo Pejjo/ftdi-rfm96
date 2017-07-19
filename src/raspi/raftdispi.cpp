@@ -61,6 +61,11 @@ byte SPIClass::transfer(byte _data) {
 	return data;
 }
  
+byte SPIClass::getInt()
+{
+	return spi_getInt(&ftHandle);
+}
+
 void pinMode(unsigned char pin, unsigned char mode) {
 }
 
@@ -71,7 +76,7 @@ unsigned char digitalRead(unsigned char pin) {
   if (pin == LMIC_UNUSED_PIN) {
     return 0;
   }
-  return spi_getInt(&ftHandle);
+  return SPI.getInt();
 }
 
 //Initialize a timestamp for millis/micros calculation

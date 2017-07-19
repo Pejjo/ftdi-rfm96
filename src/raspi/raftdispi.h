@@ -111,6 +111,7 @@ class SPIClass {
     static void setClockDivider(uint16_t);
 	static void setDelayUsecs(uint16_t delay);
 	static uint16_t getDelayUsecs();
+	static byte getInt();
 	
 };
 

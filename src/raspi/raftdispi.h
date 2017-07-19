@@ -90,8 +90,8 @@ class SPISettings
 
 class SPIClass {
   private: 
-	FT_HANDLE ftHandle;             // Handle of the FTDI device
-    FT_STATUS ftStatus;             // Result of each D2XX call
+	static FT_HANDLE ftHandle;             // Handle of the FTDI device
+    static FT_STATUS ftStatus;             // Result of each D2XX call
     int count;
 
     uint16_t divider  ;

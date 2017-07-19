@@ -22,6 +22,10 @@
 #include "raspi/raspi.h"
 #endif
 
+#ifdef FTDI_SPI
+#include "raspi/raftdispi.h"
+#endif
+
 #ifdef __cplusplus
 extern "C"{
 #endif

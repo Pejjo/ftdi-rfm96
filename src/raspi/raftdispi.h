@@ -90,15 +90,16 @@ class SPISettings
     uint16_t divider  ;
     uint8_t  bitOrder ;
     uint8_t  dataMode ;	
+	FT_HANDLE ftHandle;             // Handle of the FTDI device
+    FT_STATUS ftStatus;             // Result of each D2XX call
+
+	uint16_t delay;
   friend class SPIClass;
 };
 
 class SPIClass {
   private: 
-	static FT_HANDLE ftHandle;             // Handle of the FTDI device
-    static FT_STATUS ftStatus;             // Result of each D2XX call
 
-	static uint16_t delay;
   public:
     static byte transfer(byte _data);
     // SPI Configuration methods

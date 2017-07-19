@@ -98,7 +98,7 @@ class SPIClass {
 	static FT_HANDLE ftHandle;             // Handle of the FTDI device
     static FT_STATUS ftStatus;             // Result of each D2XX call
 
-	uint16_t delay;
+	static uint16_t delay;
   public:
     static byte transfer(byte _data);
     // SPI Configuration methods
@@ -110,7 +110,7 @@ class SPIClass {
     static void setDataMode(uint8_t);
     static void setClockDivider(uint16_t);
 	static void setDelayUsecs(uint16_t delay);
-	uint16_t getDelayUsecs();
+	static uint16_t getDelayUsecs();
 	
 };
 

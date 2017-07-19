@@ -25,13 +25,13 @@ void SPIClass::begin(const char *serial) {
 }
 
 // Set the bus delay
-void SPIClass::setDelayUsecs(uint16_t delay) {
-	this->delay = delay;
+void SPIClass::setDelayUsecs(uint16_t ndelay) {
+	delay = ndelay;
 }
 
 // Get the bus delay
 uint16_t SPIClass::getDelayUsecs() {
-	return this->delay;
+	return delay;
 }
 
 

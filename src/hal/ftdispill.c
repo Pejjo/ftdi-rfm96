@@ -4,6 +4,7 @@
 #define DEBUG_ENABLE
 #define MAXLEN	64
 
+
 #include "debug.h"
 
 BYTE byOutputBuffer[MAXLEN];   	// Buffer to hold MPSSE commands and data

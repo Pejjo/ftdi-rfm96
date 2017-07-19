@@ -24,12 +24,23 @@ void SPIClass::begin(const char *serial) {
 	setDelayUsecs(0);
 }
 
+// Set the bus delay
+void SPIClass::setDelayUsecs(uint16_t delay) {
+	this->delay = delay;
+}
+
+// Get the bus delay
+uint16_t SPIClass::getDelayUsecs() {
+	return this->delay;
+}
+
+
 void SPIClass::end() {
   //End the SPI
   spi_close(&ftHandle);
 }
 
-void SPIClass::beginTransaction() {
+void SPIClass::beginTransaction(SPISettings settings) {
   //Set SPI clock divider
 
 }

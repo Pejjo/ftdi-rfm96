@@ -97,6 +97,7 @@ class SPIClass {
     uint16_t divider  ;
     uint8_t  bitOrder ;
     uint8_t  dataMode ;	
+	uint16_t delay;
   public:
     static byte transfer(byte _data);
     // SPI Configuration methods
@@ -107,6 +108,9 @@ class SPIClass {
     static void setBitOrder(uint8_t);
     static void setDataMode(uint8_t);
     static void setClockDivider(uint16_t);
+	static void setDelayUsecs(uint16_t delay);
+	uint16_t SPIClass::getDelayUsecs();
+	
 };
 
 extern SPIClass SPI; 

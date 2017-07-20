@@ -115,6 +115,7 @@ int spi_init(FT_HANDLE *dev, char *descr, const char *serial)
         for (Count = 0; Count <dwNumBytesRead - 1; Count++)
         //Check if Bad command and echo command are received
         {
+				printf("%d : %x ",Count, byInputBuffer[Count]);
                 if ((byInputBuffer[Count] == 0xFA) && (byInputBuffer[Count+1] == 0xAB))
                 {
                         bCommandEchod = 1;

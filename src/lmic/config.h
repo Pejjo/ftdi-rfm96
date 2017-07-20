@@ -88,4 +88,11 @@
 #endif
 #endif 
 
+#ifdef FTDI_SPI 
+#ifdef USE_IDEETRON_AES
+#undef USE_IDEETRON_AES
+#define USE_ORIGINAL_AES
+#endif
+#endif 
+
 #endif // _lmic_config_h_

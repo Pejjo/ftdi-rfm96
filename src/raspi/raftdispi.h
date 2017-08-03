@@ -114,7 +114,7 @@ class SPIClass {
 	static void setDelayUsecs(uint16_t delay);
 	static uint16_t getDelayUsecs();
 	static byte getInt();
-	
+	static void setCs(unsigned char val);	
 };
 
 extern SPIClass SPI; 

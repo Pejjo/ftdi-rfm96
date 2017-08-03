@@ -147,12 +147,12 @@ void hal_pin_nss (u1_t val) {
 // perform SPI transaction with radio
 u1_t hal_spi (u1_t out) {
     u1_t res = SPI.transfer(out);
-/*
+
     Serial.print(">");
     Serial.print(out, HEX);
     Serial.print("<");
     Serial.println(res, HEX);
-    */
+    
     return res;
 }
 

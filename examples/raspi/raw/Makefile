@@ -36,8 +36,8 @@ raw.o: raw.cpp
 #spiftdi.o: $(LMICBASE)/hal/spiftdi.cpp
 #				$(CC) $(CXXFLAGS) -c $(LMICBASE)/hal/spiftdi.cpp $(INCLUDE)
 
-ftdispill.o: $(LMICBASE)/raspi/ftdispill.c
-				$(CC) $(CXXFLAGS) -c $(LMICBASE)/raspi/ftdispill.c $(INCLUDE) 
+ftdispill.o: $(LMICBASE)/hal/ftdispill.c
+				$(CC) $(CXXFLAGS) -c $(LMICBASE)/hal/ftdispill.c $(INCLUDE) 
 raftdispi.o: $(LMICBASE)/raspi/raftdispi.cpp
 				$(CC) $(CFLAGS) -c $(LMICBASE)/raspi/raftdispi.cpp $(INCLUDE)
 

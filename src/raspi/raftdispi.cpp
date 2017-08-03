@@ -50,14 +50,13 @@ void SPIClass::endTransaction() {
   
 byte SPIClass::transfer(byte _data) {
 	byte data;
-    spi_setCS(&ftHandle,0);
-
+//	spi_setCS(&ftHandle,0);
 	if (delay) {
 		usleep(delay);
 	}
 
         spi_trans(&ftHandle,1, (char *)&data, (char *)&_data);
-	spi_setCS(&ftHandle,1);
+//	spi_setCS(&ftHandle,1);
 	return data;
 }
  
@@ -66,10 +65,18 @@ byte SPIClass::getInt()
 	return spi_getInt(&ftHandle);
 }
 
+void SPIClass::setCs(unsigned char val)
+{
+	spi_setCS(&ftHandle,val);
+}
+
 void pinMode(unsigned char pin, unsigned char mode) {
 }
 
 void digitalWrite(unsigned char pin, unsigned char value) {
+  if (pin==lmic_pins.nss) {
+	SPI.setCs(value);
+  }
 }
 
 unsigned char digitalRead(unsigned char pin) {
